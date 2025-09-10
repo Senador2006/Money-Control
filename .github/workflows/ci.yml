@@ -52,7 +52,7 @@ jobs:
     
     - name: Test Docker image
       run: |
-        docker run -d -p 3000:3000 --name test-container Money-Control:${{ github.sha }}
+        docker run -d -p 3000:3000 --name test-container money-control:${{ github.sha }}
         sleep 10
         curl -f http://localhost:3000 || exit 1
         docker stop test-container
