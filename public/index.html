@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Control - Controle Financeiro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-wallet"></i> Money Control</h1>
+            <p>Gerencie suas finanças de forma inteligente</p>
+        </header>
+
+        <!-- Resumo Financeiro -->
+        <section class="summary-section">
+            <h2>Resumo Financeiro</h2>
+            <div class="summary-cards">
+                <div class="summary-card income">
+                    <i class="fas fa-arrow-up"></i>
+                    <div>
+                        <h3>Receitas</h3>
+                        <span id="total-income">R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="summary-card expense">
+                    <i class="fas fa-arrow-down"></i>
+                    <div>
+                        <h3>Despesas</h3>
+                        <span id="total-expense">R$ 0,00</span>
+                    </div>
+                </div>
+                <div class="summary-card balance">
+                    <i class="fas fa-balance-scale"></i>
+                    <div>
+                        <h3>Saldo</h3>
+                        <span id="balance">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controles Principais -->
+        <section class="controls-section">
+            <div class="control-buttons">
+                <button id="add-income-btn" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Adicionar Receita
+                </button>
+                <button id="add-expense-btn" class="btn btn-danger">
+                    <i class="fas fa-minus"></i> Adicionar Despesa
+                </button>
+                <button id="manage-budgets-btn" class="btn btn-info">
+                    <i class="fas fa-chart-pie"></i> Gerenciar Orçamentos
+                </button>
+                <button id="investments-btn" class="btn btn-warning">
+                    <i class="fas fa-chart-line"></i> Investimentos
+                </button>
+            </div>
+        </section>
+
+        <!-- Orçamentos por Categoria -->
+        <section class="budgets-section">
+            <h2>Orçamentos por Categoria</h2>
+            <div id="budgets-container" class="budgets-grid">
+                <!-- Orçamentos serão carregados aqui -->
+            </div>
+        </section>
+
+        <!-- Seção de Investimentos -->
+        <section id="investments-section" class="investments-section" style="display: none;">
+            <h2><i class="fas fa-chart-line"></i> Meus Investimentos</h2>
+            
+            <!-- Resumo de Investimentos -->
+            <div class="investment-summary">
+                <div class="summary-cards">
+                    <div class="summary-card investment-total">
+                        <i class="fas fa-wallet"></i>
+                        <div>
+                            <h3>Total Investido</h3>
+                            <span id="total-invested">R$ 0,00</span>
+                        </div>
+                    </div>
+                    <div class="summary-card investment-current">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h3>Valor Atual</h3>
+                            <span id="current-value">R$ 0,00</span>
+                        </div>
+                    </div>
+                    <div class="summary-card investment-profit">
+                        <i class="fas fa-trending-up"></i>
+                        <div>
+                            <h3>Lucro/Prejuízo</h3>
+                            <span id="profit-loss">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controles de Investimentos -->
+            <div class="investment-controls">
+                <button id="add-investment-btn" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Adicionar Investimento
+                </button>
+                <button id="profile-btn" class="btn btn-info">
+                    <i class="fas fa-user-cog"></i> Meu Perfil
+                </button>
+                <button id="recommendations-btn" class="btn btn-primary">
+                    <i class="fas fa-lightbulb"></i> Recomendações
+                </button>
+            </div>
+
+            <!-- Lista de Investimentos -->
+            <div class="investments-list">
+                <h3>Meus Investimentos</h3>
+                <div id="investments-container">
+                    <!-- Investimentos serão carregados aqui -->
+                </div>
+            </div>
+
+            <!-- Análise por Tipo -->
+            <div class="investment-analysis">
+                <h3>Análise por Tipo de Investimento</h3>
+                <div id="investment-types-container">
+                    <!-- Análise será carregada aqui -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de Transações -->
+        <section class="transactions-section">
+            <h2>Últimas Transações</h2>
+            <div class="transactions-controls">
+                <select id="filter-type">
+                    <option value="">Todas as transações</option>
+                    <option value="income">Receitas</option>
+                    <option value="expense">Despesas</option>
+                </select>
+                <select id="filter-category">
+                    <option value="">Todas as categorias</option>
+                </select>
+            </div>
+            <div id="transactions-list" class="transactions-list">
+                <!-- Transações serão carregadas aqui -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal para Adicionar Transação -->
+    <div id="transaction-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Adicionar Transação</h2>
+            <form id="transaction-form">
+                <div class="form-group">
+                    <label for="transaction-description">Descrição:</label>
+                    <input type="text" id="transaction-description" required>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-amount">Valor (R$):</label>
+                    <input type="number" id="transaction-amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-category">Categoria:</label>
+                    <select id="transaction-category" required>
+                        <option value="">Selecione uma categoria</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transaction-date">Data:</label>
+                    <input type="date" id="transaction-date" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-transaction" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Gerenciar Orçamentos -->
+    <div id="budget-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Gerenciar Orçamentos</h2>
+            <div id="budget-form-container">
+                <!-- Formulários de orçamento serão carregados aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Adicionar/Editar Investimento -->
+    <div id="investment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="investment-modal-title">Adicionar Investimento</h2>
+            <form id="investment-form">
+                <div class="form-group">
+                    <label for="investment-name">Nome do Investimento:</label>
+                    <input type="text" id="investment-name" placeholder="Ex: PETR4, CDB Banco X" required>
+                </div>
+                <div class="form-group">
+                    <label for="investment-type">Tipo de Investimento:</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <select id="investment-type" required style="flex: 1;">
+                            <option value="">Selecione o tipo</option>
+                        </select>
+                        <button type="button" id="add-custom-type-btn" class="btn btn-secondary" style="padding: 8px 12px;">
+                            <i class="fas fa-plus"></i> Novo
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="investment-current-price">Preço Atual da Cota (R$):</label>
+                    <input type="number" id="investment-current-price" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="investment-amount">Valor Investido (R$):</label>
+                    <input type="number" id="investment-amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="investment-quantity">Quantidade de Cotas:</label>
+                    <input type="number" id="investment-quantity" step="0.000001" placeholder="Será calculado automaticamente">
+                </div>
+                <div class="form-group">
+                    <label for="investment-date">Data da Compra:</label>
+                    <input type="date" id="investment-date" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-investment" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Perfil do Usuário -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Meu Perfil de Investidor</h2>
+            <form id="profile-form">
+                <div class="form-group">
+                    <label for="profile-income">Renda Mensal (R$):</label>
+                    <input type="number" id="profile-income" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="profile-risk">Tolerância ao Risco:</label>
+                    <select id="profile-risk" required>
+                        <option value="conservative">Conservador - Prefere segurança</option>
+                        <option value="moderate">Moderado - Equilibra risco e retorno</option>
+                        <option value="aggressive">Agressivo - Busca alta rentabilidade</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="profile-goal">Objetivo do Investimento:</label>
+                    <select id="profile-goal" required>
+                        <option value="preservation">Preservação - Manter o valor do dinheiro</option>
+                        <option value="income">Renda - Gerar renda passiva</option>
+                        <option value="growth">Crescimento - Aumentar o patrimônio</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="profile-horizon">Horizonte Temporal:</label>
+                    <select id="profile-horizon" required>
+                        <option value="short">Curto Prazo - Até 2 anos</option>
+                        <option value="medium">Médio Prazo - 2 a 5 anos</option>
+                        <option value="long">Longo Prazo - Mais de 5 anos</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-profile" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Perfil</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Recomendações -->
+    <div id="recommendations-modal" class="modal">
+        <div class="modal-content large-modal">
+            <span class="close">&times;</span>
+            <h2><i class="fas fa-lightbulb"></i> Recomendações de Investimento</h2>
+            <div id="recommendations-container">
+                <!-- Recomendações serão carregadas aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Criar Tipo Personalizado -->
+    <div id="custom-type-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Adicionar Tipo de Investimento</h2>
+            <form id="custom-type-form">
+                <div class="form-group">
+                    <label for="custom-type-name">Nome do Tipo:</label>
+                    <input type="text" id="custom-type-name" placeholder="Ex: REITs, ETFs" required>
+                </div>
+                <div class="form-group">
+                    <label for="custom-type-description">Descrição:</label>
+                    <input type="text" id="custom-type-description" placeholder="Ex: Fundos de investimento imobiliário" required>
+                </div>
+                <div class="form-group">
+                    <label for="custom-type-risk">Nível de Risco:</label>
+                    <select id="custom-type-risk" required>
+                        <option value="Baixo">Baixo</option>
+                        <option value="Médio">Médio</option>
+                        <option value="Médio-Alto">Médio-Alto</option>
+                        <option value="Alto">Alto</option>
+                        <option value="Muito Alto">Muito Alto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="custom-type-return">Retorno Esperado:</label>
+                    <select id="custom-type-return" required>
+                        <option value="Baixo">Baixo</option>
+                        <option value="Baixo-Médio">Baixo-Médio</option>
+                        <option value="Médio">Médio</option>
+                        <option value="Médio-Alto">Médio-Alto</option>
+                        <option value="Alto">Alto</option>
+                        <option value="Muito Alto">Muito Alto</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-custom-type" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar Tipo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

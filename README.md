@@ -1,37 +1,46 @@
-# 💰 Money Control
+# Money Control 💰
 
-Sistema de controle financeiro pessoal desenvolvido em Node.js com MongoDB.
+Sistema de controle financeiro pessoal para gerenciar receitas, despesas e orçamentos de forma inteligente.
 
 ## 🚀 Funcionalidades
 
-- **Gestão de Transações**: Controle de receitas e despesas
-- **Categorização**: Organize suas transações por categorias
-- **Orçamentos**: Defina limites de gastos por categoria
-- **Investimentos**: Acompanhe seus investimentos e performance
-- **Relatórios**: Visualize resumos e análises financeiras
-- **Recomendações**: Receba sugestões de investimento baseadas no seu perfil
+- **Dashboard Financeiro**: Visão geral das suas finanças com receitas, despesas e saldo
+- **Gestão de Transações**: Adicione, edite e remova receitas e despesas
+- **Orçamentos por Categoria**: Defina limites de gastos para diferentes categorias
+- **Categorização Inteligente**: Organize seus gastos em categorias predefinidas
+- **Relatórios Visuais**: Acompanhe seus gastos com gráficos e indicadores
+- **Interface Responsiva**: Funciona perfeitamente em desktop e mobile
 
-## 🛠️ Tecnologias
+## 📋 Categorias Pré-definidas
 
-- **Backend**: Node.js, Express.js
-- **Banco de Dados**: MongoDB
+- 🍽️ Alimentação
+- 🚗 Transporte  
+- 💼 Investimentos
+- 🎮 Lazer
+- 🏥 Saúde
+- 📚 Educação
+- 📦 Outros
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Backend**: Node.js + Express
 - **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Containerização**: Docker, Docker Compose
+- **Estilização**: CSS Grid, Flexbox, Gradientes
+- **Ícones**: Font Awesome
+- **Armazenamento**: Dados em memória (JSON)
 
-## 📋 Pré-requisitos
+## 🚀 Como Executar
 
-- Node.js (versão 18 ou superior)
-- MongoDB (local ou Atlas)
-- Docker e Docker Compose (opcional)
+### Pré-requisitos
+- Node.js (versão 14 ou superior)
+- MongoDB (versão 4.4 ou superior)
+- npm ou yarn
 
-## 🚀 Instalação e Execução
+### Instalação
 
-### Método 1: Execução Local
-
-1. **Clone o repositório**
+1. **Clone ou baixe o projeto**
 ```bash
-   git clone https://github.com/seu-usuario/money-control.git
-   cd money-control
+cd MoneyControl
 ```
 
 2. **Instale as dependências**
@@ -39,217 +48,134 @@ Sistema de controle financeiro pessoal desenvolvido em Node.js com MongoDB.
 npm install
 ```
 
-3. **Configure as variáveis de ambiente**
-   ```bash
-   cp env.example .env
-   # Edite o arquivo .env com suas configurações
-   ```
+3. **Configure o MongoDB Atlas** (Recomendado)
+   - Siga o guia detalhado em `MONGODB_ATLAS_SETUP.md`
+   - Ou use MongoDB local (veja seção abaixo)
 
-4. **Execute a aplicação**
+4. **Execute o servidor**
 ```bash
-   # Desenvolvimento
-   npm run dev
-   
-   # Produção
 npm start
 ```
 
 5. **Acesse a aplicação**
-   - URL: http://localhost:3000
+Abra seu navegador e acesse: `http://localhost:3000`
 
-### Método 2: Docker
-
-1. **Clone o repositório**
+### Modo Desenvolvimento
+Para executar com auto-reload:
 ```bash
-   git clone https://github.com/seu-usuario/money-control.git
-   cd money-control
-   ```
+npm run dev
+```
 
-2. **Execute com Docker Compose**
-   ```bash
-   # Iniciar todos os serviços
-   npm run docker:up
-   
-   # Ver logs
-   npm run docker:logs
-   
-   # Parar serviços
-   npm run docker:down
-   ```
+### Configuração do MongoDB Atlas
+O sistema usa MongoDB Atlas (nuvem) para persistir os dados. As coleções são criadas automaticamente:
+- `transactions` - Transações financeiras
+- `categories` - Categorias de gastos
+- `investments` - Investimentos
+- `investmenttypes` - Tipos de investimento
+- `userprofiles` - Perfil do usuário
 
-3. **Acesse a aplicação**
-   - Aplicação: http://localhost:3000
-   - MongoDB Express: http://localhost:8081
+#### Configuração do MongoDB Atlas:
+1. **Crie uma conta gratuita** em [MongoDB Atlas](https://www.mongodb.com/atlas)
+2. **Crie um cluster** (M0 Sandbox é gratuito)
+3. **Configure acesso à rede**:
+   - Vá em "Network Access"
+   - Adicione seu IP ou use `0.0.0.0/0` para permitir qualquer IP
+4. **Crie um usuário de banco**:
+   - Vá em "Database Access"
+   - Crie um usuário com senha
+5. **Obtenha a string de conexão**:
+   - Vá em "Connect" → "Connect your application"
+   - Copie a string de conexão
+6. **Atualize o arquivo `config.js`** com sua string de conexão
 
-## 🐳 Comandos Docker
+#### String de Conexão Atual:
+```javascript
+MONGODB_URI: 'mongodb+srv://admin:admin123@cluster0.ej5o60i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+```
 
+**⚠️ Importante**: Altere as credenciais (`admin:admin123`) para suas credenciais reais!
+
+### Alternativa: MongoDB Local
+Se preferir usar MongoDB local:
+
+1. **Instale o MongoDB** em sua máquina
+2. **Inicie o serviço** MongoDB
+3. **Atualize o `config.js`**:
+```javascript
+MONGODB_URI: 'mongodb://localhost:27017/moneycontrol'
+```
+
+### Teste de Conexão
 ```bash
-# Construir imagem
-npm run docker:build
-
-# Executar container
-npm run docker:run
-
-# Iniciar todos os serviços
-npm run docker:up
-
-# Parar serviços
-npm run docker:down
-
-# Ver logs
-npm run docker:logs
-
-# Reiniciar serviços
-npm run docker:restart
-
-# Limpar volumes e containers
-npm run docker:clean
-```
-
-## 📁 Estrutura do Projeto
-
-```
-money-control/
-├── public/                 # Arquivos estáticos (frontend)
-│   ├── index.html
-│   ├── script.js
-│   └── style.css
-├── src/                   # Código fonte do backend
-│   ├── controllers/       # Controladores
-│   ├── models/           # Modelos de dados
-│   ├── routes/           # Rotas da API
-│   └── utils/            # Utilitários
-├── mongo-init/           # Scripts de inicialização do MongoDB
-├── docker-compose.yml    # Configuração do Docker Compose
-├── Dockerfile           # Configuração do Docker
-├── .dockerignore        # Arquivos ignorados pelo Docker
-├── .gitignore          # Arquivos ignorados pelo Git
-└── package.json        # Dependências e scripts
-```
-
-## 🔧 Configuração
-
-### Variáveis de Ambiente
-
-Crie um arquivo `.env` baseado no `env.example`:
-
-```env
-# Servidor
-PORT=3000
-NODE_ENV=development
-
-# MongoDB
-MONGODB_URI=mongodb://localhost:27017/moneycontrol
-
-# Segurança
-JWT_SECRET=your_secret_key
-SESSION_SECRET=your_session_secret
-```
-
-### MongoDB
-
-#### Opção 1: MongoDB Local
-```bash
-# Instalar MongoDB localmente
-# Configurar MONGODB_URI=mongodb://localhost:27017/moneycontrol
-```
-
-#### Opção 2: MongoDB Atlas
-```bash
-# Criar cluster no MongoDB Atlas
-# Configurar MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/database
-```
-
-#### Opção 3: Docker
-```bash
-# Usar o MongoDB do Docker Compose
-# MONGODB_URI=mongodb://mongo:27017/moneycontrol
-```
-
-## 📊 API Endpoints
-
-### Transações
-- `GET /api/transactions` - Listar transações
-- `POST /api/transactions` - Criar transação
-- `PUT /api/transactions/:id` - Atualizar transação
-- `DELETE /api/transactions/:id` - Deletar transação
-
-### Categorias
-- `GET /api/categories` - Listar categorias
-- `POST /api/categories` - Criar categoria
-- `PUT /api/categories/:id` - Atualizar categoria
-- `DELETE /api/categories/:id` - Deletar categoria
-
-### Investimentos
-- `GET /api/investments` - Listar investimentos
-- `POST /api/investments` - Criar investimento
-- `PUT /api/investments/:id` - Atualizar investimento
-- `DELETE /api/investments/:id` - Deletar investimento
-- `GET /api/investments/types` - Listar tipos de investimento
-- `GET /api/investments/summary` - Resumo de investimentos
-- `GET /api/investments/recommendations` - Recomendações
-
-### Resumos
-- `GET /api/summary` - Resumo financeiro geral
-
-### Perfil
-- `GET /api/user-profile` - Obter perfil do usuário
-- `PUT /api/user-profile` - Atualizar perfil do usuário
-
-## 🧪 Testes
-
-```bash
-# Testar conexão com MongoDB
 npm run test-connection
-
-# Alternar para MongoDB Atlas
-npm run switch-atlas
-
-# Alternar para MongoDB local
-npm run switch-local
 ```
 
-## 🚀 Deploy
+## 📱 Como Usar
 
-### Docker
-1. Construa a imagem:
-   ```bash
-   docker build -t money-control .
-   ```
-2. Execute o container:
-   ```bash
-   docker run -p 3000:3000 money-control
-   ```
+### 1. Adicionando Transações
+- Clique em "Adicionar Receita" para registrar ganhos
+- Clique em "Adicionar Despesa" para registrar gastos
+- Preencha a descrição, valor, categoria e data
+- Salve a transação
 
-### VPS/Cloud
-1. Faça clone do repositório
-2. Configure as variáveis de ambiente
-3. Execute com Docker Compose:
-   ```bash
-   docker-compose up -d
-   ```
+### 2. Gerenciando Orçamentos
+- Clique em "Gerenciar Orçamentos"
+- Defina valores limite para cada categoria
+- Acompanhe o progresso visual dos gastos
+
+### 3. Visualizando Relatórios
+- Veja o resumo financeiro no topo da página
+- Acompanhe os orçamentos por categoria
+- Filtre transações por tipo e categoria
+
+## 🎨 Interface
+
+A interface foi desenvolvida com foco na usabilidade e experiência do usuário:
+
+- **Design Moderno**: Gradientes e sombras para uma aparência profissional
+- **Responsiva**: Adapta-se a diferentes tamanhos de tela
+- **Intuitiva**: Navegação simples e clara
+- **Visual**: Indicadores de progresso e cores para facilitar a compreensão
+
+## 🔧 Estrutura do Projeto
+
+```
+MoneyControl/
+├── server.js              # Servidor Express
+├── package.json           # Dependências e scripts
+├── public/                # Arquivos frontend
+│   ├── index.html         # Página principal
+│   ├── style.css          # Estilos CSS
+│   └── script.js          # JavaScript frontend
+└── README.md              # Este arquivo
+```
+
+## 🚀 Próximas Funcionalidades
+
+- [ ] Persistência em banco de dados
+- [ ] Exportação de relatórios (PDF/Excel)
+- [ ] Metas de investimento
+- [ ] Gráficos mais avançados
+- [ ] Backup e sincronização
+- [ ] Múltiplas contas/carteiras
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
 ## 🤝 Contribuição
 
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+Contribuições são bem-vindas! Sinta-se à vontade para:
 
-## 📝 Licença
+1. Fazer um fork do projeto
+2. Criar uma branch para sua feature
+3. Fazer commit das mudanças
+4. Abrir um Pull Request
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+## 📞 Suporte
 
-## 👨‍💻 Autor
+Se tiver dúvidas ou problemas, abra uma issue no repositório.
 
-**Seu Nome**
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- Email: seu.email@exemplo.com
+---
 
-## 🙏 Agradecimentos
-
-- MongoDB Atlas
-- Node.js Community
-- Express.js Team
-- Docker Team
+**Desenvolvido com ❤️ para ajudar no controle financeiro pessoal**

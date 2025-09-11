@@ -6,18 +6,14 @@ const configPath = path.join(__dirname, 'config.js');
 
 const configs = {
   atlas: {
-    MONGODB_URI: 'mongodb+srv://admin:admin123@cluster0.ej5o60i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+    MONGODB_URI: process.env.MONGODB_URI,
     description: 'MongoDB Atlas (Nuvem)'
   },
-  local: {
-    MONGODB_URI: 'mongodb://localhost:27017/moneycontrol',
-    description: 'MongoDB Local'
-  }
 };
 
 function switchDatabase(type) {
   if (!configs[type]) {
-    console.log('❌ Tipo inválido. Use: atlas ou local');
+    console.log('❌ Tipo inválido. Use: atlas');
     return;
   }
 
@@ -47,13 +43,12 @@ if (!type) {
   console.log('🔄 Script para alternar entre MongoDB Local e Atlas');
   console.log('\nUso:');
   console.log('node switch-db.js atlas   # Usar MongoDB Atlas');
-  console.log('node switch-db.js local   # Usar MongoDB Local');
   console.log('\nConfiguração atual:');
   
   try {
     const currentConfig = require('./config');
     const isAtlas = currentConfig.MONGODB_URI.includes('mongodb+srv');
-    console.log(`📍 ${isAtlas ? 'MongoDB Atlas' : 'MongoDB Local'}`);
+    console.log(`📍 ${isAtlas ? 'MongoDB Atlas' : 'MongoDB Atlas'}`);
   } catch (error) {
     console.log('❌ Erro ao ler configuração atual');
   }

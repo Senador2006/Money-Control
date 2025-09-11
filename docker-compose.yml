@@ -1,59 +1,18 @@
 version: '3.8'
 
 services:
-  # Aplicação Node.js
-  app:
+  money-control:
     build: .
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - MONGODB_URI=mongodb+srv://admin:admin123@cluster0.ej5o60i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
       - PORT=3000
-      - MONGODB_URI=mongodb://mongo:27017/moneycontrol
-    depends_on:
-      - mongo
-    volumes:
-      - ./logs:/app/logs
     restart: unless-stopped
     networks:
-      - moneycontrol-network
-
-  # MongoDB
-  mongo:
-    image: mongo:6.0
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password123
-      - MONGO_INITDB_DATABASE=moneycontrol
-    volumes:
-      - mongo_data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d
-    restart: unless-stopped
-    networks:
-      - moneycontrol-network
-
-  # MongoDB Express (Interface web para MongoDB)
-  mongo-express:
-    image: mongo-express:1.0.0
-    ports:
-      - "8081:8081"
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=password123
-      - ME_CONFIG_MONGODB_URL=mongodb://admin:password123@mongo:27017/
-      - ME_CONFIG_BASICAUTH_USERNAME=admin
-      - ME_CONFIG_BASICAUTH_PASSWORD=admin123
-    depends_on:
-      - mongo
-    restart: unless-stopped
-    networks:
-      - moneycontrol-network
-
-volumes:
-  mongo_data:
+      - money-control-network
 
 networks:
-  moneycontrol-network:
+  money-control-network:
     driver: bridge
