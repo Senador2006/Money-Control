@@ -29,15 +29,15 @@ Sistema de controle financeiro pessoal desenvolvido em Node.js com MongoDB.
 ### Método 1: Execução Local
 
 1. **Clone o repositório**
-   ```bash
+```bash
    git clone https://github.com/seu-usuario/money-control.git
    cd money-control
-   ```
+```
 
 2. **Instale as dependências**
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 3. **Configure as variáveis de ambiente**
    ```bash
@@ -46,13 +46,13 @@ Sistema de controle financeiro pessoal desenvolvido em Node.js com MongoDB.
    ```
 
 4. **Execute a aplicação**
-   ```bash
+```bash
    # Desenvolvimento
    npm run dev
    
    # Produção
-   npm start
-   ```
+npm start
+```
 
 5. **Acesse a aplicação**
    - URL: http://localhost:3000
@@ -60,7 +60,7 @@ Sistema de controle financeiro pessoal desenvolvido em Node.js com MongoDB.
 ### Método 2: Docker
 
 1. **Clone o repositório**
-   ```bash
+```bash
    git clone https://github.com/seu-usuario/money-control.git
    cd money-control
    ```
@@ -211,15 +211,6 @@ npm run switch-local
 
 ## 🚀 Deploy
 
-### Heroku
-1. Instale o Heroku CLI
-2. Crie um app no Heroku
-3. Configure as variáveis de ambiente
-4. Faça o deploy:
-   ```bash
-   git push heroku main
-   ```
-
 ### Docker
 1. Construa a imagem:
    ```bash
@@ -228,6 +219,14 @@ npm run switch-local
 2. Execute o container:
    ```bash
    docker run -p 3000:3000 money-control
+   ```
+
+### VPS/Cloud
+1. Faça clone do repositório
+2. Configure as variáveis de ambiente
+3. Execute com Docker Compose:
+   ```bash
+   docker-compose up -d
    ```
 
 ## 🤝 Contribuição
